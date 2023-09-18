@@ -9,43 +9,54 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Fetch the source code from the directory path: ${DIRECTORY_PATH}"
-                echo "Compile the code and generate any necessary artifacts."
+                echo "Starting build process with Maven..."
+            }
+
+            post {
+                success {
+                mail to: "lo.heibrance@gmail.com",
+                subject: "Building status Email update",
+                body: "Build Successful! "
+
+                }            
             }
         }
 
-        stage('Test') {
+        stage('Unit and Integration Tests') {
             steps {
-                echo "Running unit tests..."
-                echo "Running integration tests..."
+                echo "Running unit and integration tests..."
             }
         }
 
-        stage('Code Quality Check') {
+        stage('Code Analysis') {
             steps {
-                echo "Checking the quality of the code..."
-                echo "Running another Check to JENKINS"
-
+                echo "Analyzing code quality..."
             }
         }
 
-        stage('Deploy') {
-            steps { 
-                echo "Deploying the application to the testing environment: ${TESTING_ENVIRONMENT}"
-            }
-        }
-
-        stage('Approval') {
+        stage('Security Scan') {
             steps {
-                echo "Waiting for approval..."
-                sleep 10 
+                echo "Scanning for code vulnerabilities with OWASP ZAP..."
             }
         }
 
-        stage('Deploy to production') {
+        stage('Deploy to Staging') {
             steps {
-                echo "Starting deployment to the production environment..."
-                echo "${PRODUCTION_ENVIRONMENT}, deployment to ${TESTING_ENVIRONMENT} is done!"
+                echo "Deploying to staging environment with AWS CLI 2 instance..."
+            
+            }
+        }
+
+        stage('Integration Tests on Staging') {
+            steps {
+                echo "Running integration tests on staging environment with Selenium..."
+            }
+        }
+
+        stage('Deploy to Production') {
+            steps {
+                echo "Deploying to production environment with AWS CLI 2 instance..."
+               
             }
         }
     }
