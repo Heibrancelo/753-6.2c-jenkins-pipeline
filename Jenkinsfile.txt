@@ -16,7 +16,7 @@ pipeline {
                 success {
                 mail to: "lo.heibrance@gmail.com",
                 subject: "Building status Email update",
-                body: "Build Successful! "
+                body: "Build Successful! Hello from GITHUB! "
 
                 }            
             }
